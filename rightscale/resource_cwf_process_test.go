@@ -208,14 +208,19 @@ EOF
 func testAccCWFProcess_collection(sgHref string) string {
 	return fmt.Sprintf(`
 		variable "sec_group" {
-			type    = "map"
+			type = object({
+				namespace   = string
+				type        = string
+				hrefs       = list(string)
+				details     = list(map(string))
+			})
 			default = {
-			  "namespace" = "rs_cm"
-			  "type" = "security_groups"
-			  "hrefs" = ["%s"]
-			  "details" = [{
-					"description" = "A security group"
-			  }]
+				"namespace" = "rs_cm"
+				"type"      = "security_groups"
+				"hrefs"     = ["%s"]
+				"details"   = [
+					{ "description" = "A security group" }
+				  ]
 			}
 		  }
 
